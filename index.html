@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Cheat | №1 для геймеров</title>
+    <!-- Подключаем иконки Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие переменные и сброс */
+        :root {
+            --primary: #00ff9d;
+            --primary-dark: #00d47a;
+            --dark: #121212;
+            --dark-light: #1e1e1e;
+            --gray: #2d2d2d;
+            --text-light: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0,255,157,0.05) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(0,184,255,0.05) 0%, transparent 20%);
+        }
+
+        /* Плавный скролл */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Шапка сайта (навигация) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            transition: padding 0.3s ease, background 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 1rem 5%;
+            background: rgba(18, 18, 18, 0.95);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: var(--primary);
+            color: #000;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .download-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 0 30px var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .download-btn:hover::after {
+            left: 100%;
+        }
+
+        .download-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Главный блок (Hero) */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,255,157,0.08) 0%, transparent 60%);
+            animation: pulse 15s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.08;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.12;
+            }
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            background: linear-gradient(90deg, var(--primary), #00b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0,255,157,0.5);
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px rgba(0,255,157,0.5);
+            }
+            100% {
+                text-shadow: 0 0 30px rgba(0,255,157,0.8), 0 0 15px rgba(0,184,255,0.6);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Секция с читами */
+        .cheats-section {
+            padding: 8rem 5% 6rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .cheats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .cheat-card {
+            background: var(--dark-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0,255,157,0.1);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cheat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 25px rgba(0,255,157,0.15);
+            border-color: rgba(0,255,157,0.2);
+        }
+
+        .cheat-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .cheat-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .cheat-desc {
+            color: var(--text-light);
+            flex-grow: 1;
+        }
+
+        /* Секция преимуществ */
+        .features-section {
+            padding: 8rem 5% 6rem;
+            background: var(--dark-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-desc {
+            color: var(--text-light);
+        }
+
+        /* Секция Поддержка */
+        .support-section {
+            padding: 8rem 5% 6rem;
+            background: var(--dark-light);
+            text-align: center;
+        }
+
+        .support-section h2 {
+            margin-bottom: 3rem;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-method {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            color: var(--text-light);
+        }
+
+        .contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary-dark);
+        }
+
+        .feedback-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 157, 0.1);
+        }
+
+        .feedback-form h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .feedback-form input,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background: #222;
+            color: #fff;
+            transition: border-color 0.3s ease;
+        }
+
+        .feedback-form input:focus,
+        .feedback-form textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .feedback-form button {
+            background: var(--primary);
+            color: #000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .feedback-form button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Футер */
+        .footer {
+            background: var(--dark-light);
+            padding: 3rem 5% 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0,255,157,0.1);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .nav-list {
+                display: none; /* Скрываем меню на мобильных (можно добавить бургер-меню) */
+            }
+            .cheats-section, .features-section {
+                padding: 6rem 5% 4rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .contact-methods {
+                flex-direction: column;
+            }
+        }
+
+        /* Анимация при скролле (для секций) */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="header">
+        <a href="#" class="logo">
+            <i class="fas fa-gamepad"></i>
+            Quantum Cheat
+        </a>
+        <ul class="nav-list">
+            <li><a href="#home" class="nav-link">О сайте</a></li>
+            <li><a href="#cheats" class="nav-link">Читы</a></li>
+            <li><a href="#features" class="nav-link">Преимущества</a></li>
+            <li><a href="#support" class="nav-link">Поддержка</a></li>
+            <li><a href="https://mega.nz/file/2VNxgAzD#fej8yzErwyH-TJMQoZL2Wt1eaPnW9MLoYzLCAB0xr_4" class="download-btn" target="_blank">
+                <i class="fas fa-download"></i>
+                СКАЧАТЬ ЧИТЫ
+            </a></li>
+        </ul>
+    </header>
+
+    <!-- Главный блок -->
+    <section class="hero" id="home">
+        <h1 class="hero-title">Quantum Cheat</h1>
+        <p class="hero-subtitle">Самый безопасный и мощный инструмент для улучшения вашего гейминга – абсолютно бесплатно</p>
+    </section>
+
+    <!-- Секция с читами -->
+    <section class="cheats-section fade-in" id="cheats">
+        <h2 class="section-title">Наши Читы</h2>
+        <div class="cheats-grid">
+            <div class="cheat-card fade-in">
+                <div class="cheat-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3 class="cheat-title">WallHack Pro</h3>
+                <p class="cheat-desc">Превращайте все стены в прозрачные – видите врагов за любой преградой и управляйте битвой.</p>
+            </div>
+            <div class="cheat-card fade-in">
+                <div class="cheat-icon">
+                    <i class="fas fa-crosshairs"></i>
+                </div>
+                <h3 class="cheat-title">AimBot X</h3>
+                <p class="cheat-desc">Автоматическое прицеливание на врагов – не упустите ни одного выстрела и станьте лучшим в матче.</p>
+            </div>
+            <div class="cheat-card fade-in">
+                <div class="cheat-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="cheat-title">SpeedHack</h3>
+                <p class="cheat-desc">Увеличьте скорость своего персонажа – бегите быстрее, проигрывайте меньше и управляйте картой.</p>
+            </div>
+            <div class="cheat-card fade-in">
+                <div class="cheat-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="cheat-title">NoRecoil</h3>
+                <p class="cheat-desc">Убирайте отдачу оружия – ваши выстрелы будут лететь ровно, как лазер, и убивать с первого раза.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция преимуществ -->
+    <section class="features-section fade-in" id="features">
+        <h2 class="section-title">Почему выбирают нас?</h2>
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="feature-title">Безопасно</h3>
+                <p class="feature-desc">Наши читы протестированы тысячами игроков – они не вызывают блокировок и работают стабильно.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 class="feature-title">Мощно</h3>
+                <p class="feature-desc">Мы обновляем читсы сразу после патчей игр – вы всегда будете впереди других игроков.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3 class="feature-title">Бесплатно</h3>
+                <p class="feature-desc">Вся наша библиотека читов доступна абсолютно бесплатно – не нужно платить за мощные инструменты.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="feature-title">Поддержка</h3>
+                <p class="feature-desc">Наша команда помогает с установкой и настройкой – если возникнут вопросы, мы вам поможем.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция Поддержка -->
+    <section class="support-section fade-in" id="support">
+        <h2>Поддержка</h2>
+        <div class="contact-methods">
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fas fa-at"></i>
+                </div>
+                <div class="contact-info">
+                    <p>Электронная почта:</p>
+                    <a href="mailto:quantumcheat@gmail.com">quantumcheat@gmail.com</a>
+                </div>
+            </div>
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <div class="contact-info">
+                    <p>Telegram:</p>
+                    <a href="https://t.me/supphelpcheat_bot" target="_blank">@supphelpcheat_bot</a>
+                </div>
+            </div>
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fab fa-discord"></i>
+                </div>
+                <div class="contact-info">
+                    <p>Discord:</p>
+                    <a href="https://discord.gg/quantumcheat" target="_blank">quantumcheat</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback-form">
+            <h3>Оставьте сообщение</h3>
+            <form>
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="email" placeholder="Ваш email" required>
+                <textarea placeholder="Сообщение" rows="4" required></textarea>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <a href="#" class="footer-logo">ProCheats</a>
+        <div class="footer-links">
+            <a href="#home" class="footer-link">О сайте</a>
+            <a href="#cheats" class="footer-link">Читы</a>
+            <a href="#features" class="footer-link">Преимущества</a>
+            <a href="#support" class="footer-link">Поддержка</a>
+            <a href="#" class="footer-link">Условия использования</a>
+            <a href="#" class="footer-link">Контакты</a>
+        </div>
+        <p class="copyright">&copy; 2024 Quantum Cheat. Все права защищены.</p>
+    </footer>
+
+    <!-- JavaScript для анимаций -->
+    <script>
+        // Анимация шапки при скролле
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Анимация появления секций при скролле
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        fadeElements.forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
